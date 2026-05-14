@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Lucas Poulsen — I build sites for businesses that don't have one</title>
+  <meta name="description" content="Student from Denmark. I build free sample websites for local businesses. If they like it, they buy. If not, I take it down.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { sans: ['Geist', 'system-ui', 'sans-serif'] }
+        }
+      }
+    }
+  </script>
+  <style>
+    :root {
+      --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      background: #0b0b0e;
+      color: #a1a1aa;
+      overflow-x: hidden;
+    }
+
+    .bg-orbs::before {
+      content: '';
+      position: fixed; top: -30%; left: -20%;
+      width: 80%; height: 80%;
+      background: radial-gradient(ellipse at 30% 20%, rgba(200, 110, 70, 0.04) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+    .bg-orbs::after {
+      content: '';
+      position: fixed; bottom: -20%; right: -15%;
+      width: 70%; height: 70%;
+      background: radial-gradient(ellipse at 60% 80%, rgba(150, 120, 100, 0.03) 0%, transparent 70%);
+      pointer-events: none; z-index: 0;
+    }
+
+    .noise-overlay {
+      position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%;
+      z-index: 100; pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+    }
+
+    .scroll-progress {
+      position: fixed; top: 0; left: 0;
+      height: 1px;
+      background: linear-gradient(90deg, #c86e46, #d4956a, #e0b890);
+      z-index: 200; transform-origin: left; will-change: transform;
+    }
+
+    .reveal {
+      opacity: 0; transform: translateY(24px); filter: blur(4px);
+      transition: opacity 900ms var(--ease-out-expo),
+                  transform 900ms var(--ease-out-expo),
+                  filter 900ms var(--ease-out-expo);
+    }
+    .reveal.in-view { opacity: 1; transform: translateY(0); filter: blur(0); }
+    .reveal-d1 { transition-delay: 0ms; }
+    .reveal-d2 { transition-delay: 100ms; }
+    .reveal-d3 { transition-delay: 200ms; }
+    .reveal-d4 { transition-delay: 300ms; }
+
+    .btn-press:active { transform: scale(0.97); transition: transform 120ms var(--ease-out-expo); }
+    .icon-sm { width: 18px; height: 18px; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .reveal, .reveal.in-view { transition: none; opacity: 1; transform: none; filter: none; }
+      .btn-press:active { transition: none; transform: none; }
+    }
+  </style>
+</head>
+<body class="font-sans bg-orbs">
+
+<div class="noise-overlay"></div>
+<div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- Floating Nav Pill -->
+<header class="fixed top-6 left-1/2 -translate-x-1/2 z-50">
+  <nav class="flex items-center gap-2 px-3 py-2 rounded-full bg-white/[0.04] backdrop-blur-2xl border border-white/[0.08] shadow-[0_8px_32px_-8px_rgba(0,0,0,0.5)]">
+    <span class="text-white text-sm font-medium tracking-tight px-4">Lucas</span>
+    <div class="w-px h-5 bg-white/[0.08]"></div>
+    <a href="#work" class="text-zinc-400 hover:text-white text-sm px-3 transition-colors duration-300">Work</a>
+    <a href="#about" class="text-zinc-400 hover:text-white text-sm px-3 transition-colors duration-300">About</a>
+    <a href="https://x.com/AIByPoulsen" target="_blank" rel="noopener" class="text-zinc-400 hover:text-white text-sm px-3 transition-colors duration-300">X</a>
+    <a href="https://github.com/Luxusmoberg" target="_blank" rel="noopener" class="text-zinc-400 hover:text-white text-sm px-3 transition-colors duration-300">GitHub</a>
+  </nav>
+</header>
+
+<!-- Hero -->
+<section class="min-h-[90dvh] flex items-center px-6 max-w-7xl mx-auto relative z-10 pt-32">
+  <div class="w-full">
+    <div class="overflow-hidden mb-8">
+      <p class="reveal reveal-d1 text-sm text-zinc-500 font-light max-w-lg">
+        Hi, I'm Lucas. A student from Denmark who builds websites for local businesses that don't have one yet.
+      </p>
+    </div>
+    <div class="overflow-hidden">
+      <h1 class="reveal reveal-d1 text-5xl sm:text-7xl lg:text-8xl font-bold text-white leading-[0.95] tracking-tight max-w-4xl">
+        I build a free sample.<br>
+        <span class="text-[#c86e46]">If you like it, you buy it.</span><br>
+        If not, I take it down.
+      </h1>
+    </div>
+    <div class="mt-12 flex flex-wrap gap-4">
+      <div class="reveal reveal-d2">
+        <a href="#work" class="btn-press group inline-flex items-center gap-3 bg-white hover:bg-zinc-100 text-zinc-900 pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
+          See what I've built
+          <span class="w-8 h-8 rounded-full bg-zinc-900/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500 var(--ease-out-quint)">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </span>
+        </a>
+      </div>
+      <div class="reveal reveal-d2">
+        <a href="https://x.com/AIByPoulsen" target="_blank" rel="noopener" class="btn-press group inline-flex items-center gap-3 border border-white/[0.08] hover:border-white/30 text-white pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
+          Follow on X
+          <span class="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500 var(--ease-out-quint)">
+            <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+          </span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Work: Sticky Scroll Stack -->
+<section id="work" class="py-40 px-6 max-w-7xl mx-auto relative z-10">
+  <div class="mb-16">
+    <span class="reveal inline-block rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.2em] font-medium bg-white/[0.04] border border-white/[0.08] text-[#c86e46] mb-6">
+      Built this week
+    </span>
+    <h2 class="reveal reveal-d1 text-4xl lg:text-6xl font-bold text-white tracking-tight max-w-3xl">
+      Four businesses. No upfront agreements. Just built and sent.
+    </h2>
+  </div>
+
+  <!-- Sticky stack -->
+  <div class="relative" style="height: 600vh;">
+    <div class="sticky top-28 h-[65vh] flex items-center relative">
+
+      <!-- Card 1 -->
+      <div class="stack-card absolute inset-0 rounded-[2.5rem] overflow-hidden flex flex-col lg:flex-row" style="z-index: 4;">
+        <div class="p-[6px] rounded-[2.5rem] bg-white/[0.03] border border-white/[0.04] h-full w-full">
+          <div class="rounded-[calc(2.5rem-6px)] bg-zinc-900/90 overflow-hidden h-full flex flex-col lg:flex-row shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
+            <div class="flex-1 bg-gradient-to-br from-emerald-900/50 to-emerald-800/30 flex items-center justify-center p-10">
+              <div>
+                <p class="text-emerald-300 text-xl font-semibold">lyngbyplanteskole.netlify.app</p>
+                <p class="text-emerald-500/40 text-sm mt-1">Planteskole · Store Lyngby</p>
+              </div>
+            </div>
+            <div class="flex-1 p-10 lg:p-14 flex flex-col justify-center">
+              <span class="text-[#c86e46] text-[10px] tracking-[0.2em] uppercase font-medium mb-4 rounded-full px-2 py-0.5 bg-[#c86e46]/10 border border-[#c86e46]/20 inline-block w-fit">01</span>
+              <h3 class="text-white text-2xl lg:text-3xl font-semibold mb-3 tracking-tight">St. Lyngby Planteskole</h3>
+              <p class="text-zinc-500 leading-relaxed font-light">Complete site with product catalog, Google Maps reviews, opening hours, and contact form. Built in one day from their Maps data.</p>
+              <div class="flex flex-wrap gap-2 mt-6">
+                <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1 text-zinc-400">Custom SVG icons</span>
+                <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1 text-zinc-400">Danish content</span>
+                <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1 text-zinc-400">Netlify Forms</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="stack-card absolute inset-0 rounded-[2.5rem] overflow-hidden flex flex-col lg:flex-row" style="z-index: 3;">
+        <div class="p-[6px] rounded-[2.5rem] bg-white/[0.03] border border-white/[0.04] h-full w-full">
+          <div class="rounded-[calc(2.5rem-6px)] bg-zinc-900/90 overflow-hidden h-full flex flex-col lg:flex-row shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
+            <div class="flex-1 bg-gradient-to-br from-orange-900/40 to-amber-800/20 flex items-center justify-center p-10">
+              <div>
+                <p class="text-orange-300 text-xl font-semibold">Havebuddet</p>
+                <p class="text-orange-400/40 text-sm mt-1">Gartner · København</p>
+              </div>
+            </div>
+            <div class="flex-1 p-10 lg:p-14 flex flex-col justify-center">
+              <span class="text-[#c86e46] text-[10px] tracking-[0.2em] uppercase font-medium mb-4 rounded-full px-2 py-0.5 bg-[#c86e46]/10 border border-[#c86e46]/20 inline-block w-fit">02</span>
+              <h3 class="text-white text-2xl lg:text-3xl font-semibold mb-3 tracking-tight">Havebuddet</h3>
+              <p class="text-zinc-500 leading-relaxed font-light">Modern site with live "Open 24h" badge, review cards with avatars, and animated sections. Clip-path reveals, stagger, custom easing.</p>
+              <div class="flex flex-wrap gap-2 mt-6">
+                <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1 text-zinc-400">Clip-path animationer</span>
+                <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1 text-zinc-400">Stagger reveals</span>
+                <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1 text-zinc-400">Custom easing</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="stack-card absolute inset-0 rounded-[2.5rem] overflow-hidden flex flex-col lg:flex-row" style="z-index: 2;">
+        <div class="p-[6px] rounded-[2.5rem] bg-white/[0.03] border border-white/[0.04] h-full w-full">
+          <div class="rounded-[calc(2.5rem-6px)] bg-zinc-900/90 overflow-hidden h-full flex flex-col lg:flex-row shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
+            <div class="flex-1 bg-gradient-to-br from-blue-900/50 to-slate-800/30 flex items-center justify-center p-10">
+              <div>
+                <p class="text-blue-300 text-xl font-semibold">Thomas Eiermann</p>
+                <p class="text-blue-400/40 text-sm mt-1">Anlægsgartner · Store Lyngby</p>
+              </div>
+            </div>
+            <div class="flex-1 p-10 lg:p-14 flex flex-col justify-center">
+              <span class="text-[#c86e46] text-[10px] tracking-[0.2em] uppercase font-medium mb-4 rounded-full px-2 py-0.5 bg-[#c86e46]/10 border border-[#c86e46]/20 inline-block w-fit">03</span>
+              <h3 class="text-white text-2xl lg:text-3xl font-semibold mb-3 tracking-tight">Thomas Eiermann</h3>
+              <p class="text-zinc-500 leading-relaxed font-light">Professional tradesman site with service cards, reviews, and contact form. Built from Maps data with no existing online presence.</p>
+              <div class="flex flex-wrap gap-2 mt-6">
+                <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1 text-zinc-400">Service showcase</span>
+                <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1 text-zinc-400">Reviews</span>
+                <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1 text-zinc-400">Responsive</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="stack-card absolute inset-0 rounded-[2.5rem] overflow-hidden flex flex-col lg:flex-row" style="z-index: 1;">
+        <div class="p-[6px] rounded-[2.5rem] bg-white/[0.03] border border-white/[0.04] h-full w-full">
+          <div class="rounded-[calc(2.5rem-6px)] bg-zinc-900/90 overflow-hidden h-full flex flex-col lg:flex-row shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
+            <div class="flex-1 bg-gradient-to-br from-rose-900/40 to-stone-800/20 flex items-center justify-center p-10">
+              <div>
+                <p class="text-rose-300 text-xl font-semibold">Gartner Galleriet</p>
+                <p class="text-rose-400/40 text-sm mt-1">Landskabsarkitekt</p>
+              </div>
+            </div>
+            <div class="flex-1 p-10 lg:p-14 flex flex-col justify-center">
+              <span class="text-[#c86e46] text-[10px] tracking-[0.2em] uppercase font-medium mb-4 rounded-full px-2 py-0.5 bg-[#c86e46]/10 border border-[#c86e46]/20 inline-block w-fit">04</span>
+              <h3 class="text-white text-2xl lg:text-3xl font-semibold mb-3 tracking-tight">Gartner Galleriet</h3>
+              <p class="text-zinc-500 leading-relaxed font-light">Elegant landscape architect site with process timeline, service overview, and lead capture form.</p>
+              <div class="flex flex-wrap gap-2 mt-6">
+                <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1 text-zinc-400">Process timeline</span>
+                <span class="text-[10px] bg-white/[0.04] border border-white/[0.06] rounded-full px-3 py-1 text-zinc-400">Lead capture</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- Horizontal Scroll -->
+<section id="gallery" class="py-40 relative z-10">
+  <div class="mb-16 px-6 max-w-7xl mx-auto">
+    <span class="reveal inline-block rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.2em] font-medium bg-white/[0.04] border border-white/[0.08] text-[#c86e46] mb-6">
+      See them live
+    </span>
+    <h2 class="reveal reveal-d1 text-4xl lg:text-6xl font-bold text-white tracking-tight">Try them yourself</h2>
+  </div>
+
+  <div class="horizontal-track flex gap-4 px-6" id="horizontal-track" style="width: max-content;">
+    <div class="h-scroll-card w-[340px] sm:w-[420px] shrink-0">
+      <div class="p-[6px] rounded-[2rem] bg-white/[0.03] border border-white/[0.04] h-full">
+        <a href="https://lyngbyplanteskole.netlify.app" target="_blank" rel="noopener" class="block rounded-[calc(2rem-6px)] bg-zinc-900 overflow-hidden h-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)] hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] transition-shadow duration-500 group">
+          <div class="h-40 bg-gradient-to-br from-emerald-900/40 to-emerald-800/20 flex items-center justify-center">
+            <p class="text-emerald-300 font-semibold">St. Lyngby Planteskole</p>
+          </div>
+          <div class="p-6">
+            <p class="text-white font-medium mb-1 text-sm">Planteskole</p>
+            <p class="text-zinc-500 text-xs font-light">Catalog, reviews, contact</p>
+            <span class="inline-flex items-center gap-1.5 text-[#c86e46] text-xs mt-4 group-hover:gap-2.5 transition-all duration-300">
+              Open site
+              <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="h-scroll-card w-[340px] sm:w-[420px] shrink-0">
+      <div class="p-[6px] rounded-[2rem] bg-white/[0.03] border border-white/[0.04] h-full">
+        <a href="https://dashing-otter-7ff449.netlify.app" target="_blank" rel="noopener" class="block rounded-[calc(2rem-6px)] bg-zinc-900 overflow-hidden h-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)] hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] transition-shadow duration-500 group">
+          <div class="h-40 bg-gradient-to-br from-blue-900/40 to-slate-800/20 flex items-center justify-center">
+            <p class="text-blue-300 font-semibold">Thomas Eiermann</p>
+          </div>
+          <div class="p-6">
+            <p class="text-white font-medium mb-1 text-sm">Anlægsgartner</p>
+            <p class="text-zinc-500 text-xs font-light">Services, reviews, contact</p>
+            <span class="inline-flex items-center gap-1.5 text-[#c86e46] text-xs mt-4 group-hover:gap-2.5 transition-all duration-300">
+              Open site
+              <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div class="h-scroll-card w-[340px] sm:w-[420px] shrink-0">
+      <div class="p-[6px] rounded-[2rem] bg-white/[0.03] border border-white/[0.04] h-full">
+        <a href="https://classy-froyo-6cfafe.netlify.app" target="_blank" rel="noopener" class="block rounded-[calc(2rem-6px)] bg-zinc-900 overflow-hidden h-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)] hover:shadow-[inset_0_1px_1px_rgba(255,255,255,0.08)] transition-shadow duration-500 group">
+          <div class="h-40 bg-gradient-to-br from-rose-900/40 to-stone-800/20 flex items-center justify-center">
+            <p class="text-rose-300 font-semibold">Gartner Galleriet</p>
+          </div>
+          <div class="p-6">
+            <p class="text-white font-medium mb-1 text-sm">Landskabsarkitekt</p>
+            <p class="text-zinc-500 text-xs font-light">Process, services, contact</p>
+            <span class="inline-flex items-center gap-1.5 text-[#c86e46] text-xs mt-4 group-hover:gap-2.5 transition-all duration-300">
+              Open site
+              <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- About -->
+<section id="about" class="py-40 px-6 max-w-7xl mx-auto relative z-10">
+  <div class="grid lg:grid-cols-2 gap-16 lg:gap-24">
+    <div>
+      <span class="reveal inline-block rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.2em] font-medium bg-white/[0.04] border border-white/[0.08] text-[#c86e46] mb-6">
+        About me
+      </span>
+      <h2 class="reveal reveal-d1 text-4xl lg:text-5xl font-bold text-white tracking-tight mb-8 max-w-md">Student, builder, shipper</h2>
+      <div class="reveal reveal-d2 space-y-4 text-zinc-400 leading-relaxed font-light">
+        <p>I'm at school during the day, but nearly all my free time goes to AI and coding. Not tutorials — actually building things and putting them live.</p>
+        <p>My stack: Next.js, TypeScript, Tailwind, shadcn/ui, Discord.js, LLMs, Netlify, Render.</p>
+        <p>I don't use templates. Every site is built from scratch for the specific business — their reviews, their services, their data. No Lorem ipsum. No stock photos.</p>
+        <p class="text-zinc-500">Want a site? Send me a Google Maps link.</p>
+      </div>
+    </div>
+    <div class="grid grid-cols-2 gap-3 content-start">
+      <div class="reveal reveal-d2">
+        <div class="p-[6px] rounded-[2rem] bg-white/[0.03] border border-white/[0.04] h-full">
+          <div class="rounded-[calc(2rem-6px)] bg-zinc-900 p-8 h-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
+            <div class="text-4xl font-bold text-white mb-3">4</div>
+            <p class="text-zinc-500 text-sm font-light">Sites shipped this week</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-d2">
+        <div class="p-[6px] rounded-[2rem] bg-white/[0.03] border border-white/[0.04] h-full">
+          <div class="rounded-[calc(2rem-6px)] bg-zinc-900 p-8 h-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
+            <div class="text-4xl font-bold text-white mb-3">48t</div>
+            <p class="text-zinc-500 text-sm font-light">Fra besked til live site</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-d3">
+        <div class="p-[6px] rounded-[2rem] bg-white/[0.03] border border-white/[0.04] h-full">
+          <div class="rounded-[calc(2rem-6px)] bg-zinc-900 p-8 h-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
+            <div class="text-4xl font-bold text-white mb-3">0kr</div>
+            <p class="text-zinc-500 text-sm font-light">Cost of the sample</p>
+          </div>
+        </div>
+      </div>
+      <div class="reveal reveal-d4">
+        <div class="p-[6px] rounded-[2rem] bg-white/[0.03] border border-white/[0.04] h-full">
+          <div class="rounded-[calc(2rem-6px)] bg-zinc-900 p-8 h-full shadow-[inset_0_1px_1px_rgba(255,255,255,0.04)]">
+            <div class="text-4xl font-bold text-white mb-3">100%</div>
+            <p class="text-zinc-500 text-sm font-light">Custom kode, ingen templates</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="py-40 px-6 max-w-7xl mx-auto relative z-10 text-center">
+  <span class="reveal inline-block rounded-full px-3 py-1 text-[10px] uppercase tracking-[0.2em] font-medium bg-white/[0.04] border border-white/[0.08] text-[#c86e46] mb-6">
+    One Maps search away
+  </span>
+  <h2 class="reveal reveal-d1 text-4xl lg:text-7xl font-bold text-white tracking-tight mb-8">Send me a link.<br>I build a sample.</h2>
+  <p class="reveal reveal-d2 text-zinc-500 text-lg font-light mb-12 max-w-md mx-auto">You like it: you buy. You don't: I take it down. No risk, no obligation.</p>
+  <div class="reveal reveal-d3 flex flex-wrap gap-4 justify-center">
+    <a href="mailto:handvaerkerweb@gmail.com" class="btn-press group inline-flex items-center gap-3 bg-white hover:bg-zinc-100 text-zinc-900 pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
+      handvaerkerweb@gmail.com
+      <span class="w-8 h-8 rounded-full bg-zinc-900/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500 var(--ease-out-quint)">
+        <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </span>
+    </a>
+    <a href="https://x.com/AIByPoulsen" target="_blank" rel="noopener" class="btn-press group inline-flex items-center gap-3 border border-white/[0.08] hover:border-white/30 text-white pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
+      @AIByPoulsen
+      <span class="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500 var(--ease-out-quint)">
+        <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
+      </span>
+    </a>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="py-16 px-6 border-t border-white/[0.04] relative z-10">
+  <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+    <p class="text-sm text-zinc-600 font-light">Lucas Poulsen · 2026</p>
+    <div class="flex gap-6 text-sm text-zinc-600 font-light">
+      <a href="https://x.com/AIByPoulsen" target="_blank" rel="noopener" class="hover:text-zinc-400 transition-colors duration-300">X</a>
+      <a href="https://github.com/Luxusmoberg" target="_blank" rel="noopener" class="hover:text-zinc-400 transition-colors duration-300">GitHub</a>
+      <a href="mailto:handvaerkerweb@gmail.com" class="hover:text-zinc-400 transition-colors duration-300">Email</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Scroll progress bar
+  const progressBar = document.getElementById('scroll-progress');
+  let ticking = false;
+  document.addEventListener('scroll', () => {
+    if (!ticking) {
+      requestAnimationFrame(() => {
+        const h = document.documentElement;
+        const scrollTop = window.scrollY;
+        const docHeight = h.scrollHeight - window.innerHeight;
+        const progress = docHeight > 0 ? scrollTop / docHeight : 0;
+        progressBar.style.transform = `scaleX(${progress})`;
+        ticking = false;
+      });
+      ticking = true;
+    }
+  }, { passive: true });
+
+  // IntersectionObserver for blur+fade-up reveals
+  const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('in-view');
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+</script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+<script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Sticky stack cards — evenly distributed across the scroll range
+  const cards = gsap.utils.toArray('.stack-card');
+  const totalCards = cards.length;
+  const stackContainer = cards[0]?.closest('[style*="height: 600vh"]');
+  let activeIndex = 0;
+
+  // Init: show first card
+  cards.forEach((card, i) => {
+    gsap.set(card, { opacity: 0, scale: 0.95, pointerEvents: 'none' });
+  });
+  gsap.set(cards[0], { opacity: 1, scale: 1, pointerEvents: 'auto' });
+
+  // One ScrollTrigger that evenly distributes cards
+  ScrollTrigger.create({
+    trigger: stackContainer,
+    start: 'top top',
+    end: 'bottom bottom',
+    onUpdate: (self) => {
+      const progress = self.progress;
+      const targetIndex = Math.min(Math.floor(progress * totalCards), totalCards - 1);
+      if (targetIndex !== activeIndex) {
+        // Hide old
+        gsap.to(cards[activeIndex], { opacity: 0, scale: 0.95, duration: 0.4, ease: 'power2.in', pointerEvents: 'none' });
+        // Show new
+        gsap.to(cards[targetIndex], { opacity: 1, scale: 1, duration: 0.4, ease: 'power2.out', pointerEvents: 'auto' });
+        activeIndex = targetIndex;
+      }
+    }
+  });
+
+  // Horizontal scroll gallery
+  const track = document.getElementById('horizontal-track');
+  if (track) {
+    ScrollTrigger.create({
+      trigger: '#gallery',
+      start: 'top top',
+      end: () => `+=${track.scrollWidth - window.innerWidth + 48}`,
+      pin: true,
+      scrub: 0.5,
+      onUpdate: (self) => {
+        gsap.to(track, {
+          x: -(track.scrollWidth - window.innerWidth + 48) * self.progress,
+          duration: 0.1,
+          ease: 'none'
+        });
+      }
+    });
+  }
+</script>
+
+</body>
+</html>

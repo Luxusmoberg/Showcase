@@ -65,37 +65,56 @@
     }
 
     .reveal {
-      opacity: 0; transform: translateY(20px); filter: blur(3px);
-      transition: opacity 550ms var(--ease-out-expo),
-                  transform 550ms var(--ease-out-expo),
-                  filter 550ms var(--ease-out-expo);
+      opacity: 0; transform: translateY(16px); filter: blur(2px);
+      transition: opacity 400ms var(--ease-out-expo),
+                  transform 400ms var(--ease-out-expo),
+                  filter 400ms var(--ease-out-expo);
     }
     .reveal.in-view { opacity: 1; transform: translateY(0); filter: blur(0); }
     .reveal-d1 { transition-delay: 0ms; }
-    .reveal-d2 { transition-delay: 50ms; }
-    .reveal-d3 { transition-delay: 100ms; }
-    .reveal-d4 { transition-delay: 150ms; }
+    .reveal-d2 { transition-delay: 40ms; }
+    .reveal-d3 { transition-delay: 80ms; }
+    .reveal-d4 { transition-delay: 120ms; }
 
-    .btn-press:hover { transform: scale(1.02); transition: transform 160ms var(--ease-out-expo); }
-    .btn-press:active { transform: scale(0.96); transition: transform 80ms var(--ease-out-expo); }
+    /* Hover: gated to pointer devices only */
+    @media (hover: hover) and (pointer: fine) {
+      .btn-press:hover { transform: scale(1.02); }
+    }
+    .btn-press {
+      transition: transform 160ms var(--ease-out-expo);
+    }
+    .btn-press:active { transform: scale(0.96); transition: transform 100ms var(--ease-out-expo); }
 
     @keyframes subtleFloat {
       0%, 100% { transform: translateY(0); }
-      25% { transform: translateY(-3px); }
-      75% { transform: translateY(2px); }
+      30% { transform: translateY(-4px); }
+      70% { transform: translateY(2px); }
     }
-    .float-anim { animation: subtleFloat 4s ease-in-out infinite; }
-    .float-anim-delayed { animation: subtleFloat 4s ease-in-out 1.5s infinite; }
+    .float-anim { animation: subtleFloat 4s ease infinite; }
+    .float-anim-delayed { animation: subtleFloat 4s ease 1.5s infinite; }
 
     @keyframes shimmer {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.65; }
+      50% { opacity: 0.6; }
     }
-    .shimmer-anim { animation: shimmer 2.5s ease-in-out infinite; }
+    .shimmer-anim { animation: shimmer 2s ease infinite; }
+
+    /* Inner circle bounce on group hover */
+    .icon-bounce {
+      transition: transform 200ms var(--ease-out-expo);
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .group:hover .icon-bounce {
+        transform: translateX(2px) translateY(-1px) scale(1.08);
+        transition: transform 250ms cubic-bezier(0.34, 1.56, 0.64, 1);
+      }
+    }
 
     @media (prefers-reduced-motion: reduce) {
       .reveal, .reveal.in-view { transition: none; opacity: 1; transform: none; filter: none; }
-      .btn-press:active { transition: none; transform: none; }
+      .btn-press, .btn-press:active, .btn-press:hover { transition: none; transform: none; }
+      .float-anim, .float-anim-delayed, .shimmer-anim { animation: none; }
+      .icon-bounce { transition: none; }
     }
   </style>
 </head>
@@ -141,7 +160,7 @@
       <div class="reveal reveal-d2">
         <a href="#work" class="btn-press group inline-flex items-center gap-3 bg-white hover:bg-zinc-100 text-zinc-900 pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
           See what I've built
-          <span class="w-8 h-8 rounded-full bg-zinc-900/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500" style="transition-timing-function: var(--ease-out-quint)">
+          <span class="w-8 h-8 rounded-full bg-zinc-900/[0.06] flex items-center justify-center icon-bounce">
             <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </span>
         </a>
@@ -149,7 +168,7 @@
       <div class="reveal reveal-d2">
         <a href="https://x.com/AIByPoulsen" target="_blank" rel="noopener" class="btn-press group inline-flex items-center gap-3 border border-white/[0.08] hover:border-white/30 text-white pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
           Follow on X
-          <span class="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500" style="transition-timing-function: var(--ease-out-quint)">
+          <span class="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center icon-bounce">
             <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           </span>
         </a>
@@ -291,7 +310,7 @@
           <div class="p-6">
             <p class="text-white font-medium mb-1 text-sm">Planteskole</p>
             <p class="text-zinc-500 text-xs font-light">Catalog, reviews, contact</p>
-            <span class="inline-flex items-center gap-1.5 text-[#c86e46] text-xs mt-4 group-hover:gap-2.5 transition-all duration-300">
+            <span class="inline-flex items-center gap-1.5 text-[#c86e46] text-xs mt-4 group-hover:gap-2.5" style="transition: gap 200ms var(--ease-out-expo)">
               Open site
               <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </span>
@@ -308,7 +327,7 @@
           <div class="p-6">
             <p class="text-white font-medium mb-1 text-sm">Anlægsgartner</p>
             <p class="text-zinc-500 text-xs font-light">Services, reviews, contact</p>
-            <span class="inline-flex items-center gap-1.5 text-[#c86e46] text-xs mt-4 group-hover:gap-2.5 transition-all duration-300">
+            <span class="inline-flex items-center gap-1.5 text-[#c86e46] text-xs mt-4 group-hover:gap-2.5" style="transition: gap 200ms var(--ease-out-expo)">
               Open site
               <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </span>
@@ -325,7 +344,7 @@
           <div class="p-6">
             <p class="text-white font-medium mb-1 text-sm">Landskabsarkitekt</p>
             <p class="text-zinc-500 text-xs font-light">Process, services, contact</p>
-            <span class="inline-flex items-center gap-1.5 text-[#c86e46] text-xs mt-4 group-hover:gap-2.5 transition-all duration-300">
+            <span class="inline-flex items-center gap-1.5 text-[#c86e46] text-xs mt-4 group-hover:gap-2.5" style="transition: gap 200ms var(--ease-out-expo)">
               Open site
               <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </span>
@@ -398,13 +417,13 @@
   <div class="reveal reveal-d3 flex flex-wrap gap-4 justify-center">
     <a href="mailto:handvaerkerweb@gmail.com" class="btn-press group inline-flex items-center gap-3 bg-white hover:bg-zinc-100 text-zinc-900 pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
       handvaerkerweb@gmail.com
-      <span class="w-8 h-8 rounded-full bg-zinc-900/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500" style="transition-timing-function: var(--ease-out-quint)">
+      <span class="w-8 h-8 rounded-full bg-zinc-900/[0.06] flex items-center justify-center icon-bounce">
         <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </span>
     </a>
     <a href="https://x.com/AIByPoulsen" target="_blank" rel="noopener" class="btn-press group inline-flex items-center gap-3 border border-white/[0.08] hover:border-white/30 text-white pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
       @AIByPoulsen
-      <span class="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500" style="transition-timing-function: var(--ease-out-quint)">
+      <span class="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center icon-bounce">
         <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       </span>
     </a>

@@ -65,41 +65,33 @@
     }
 
     .reveal {
-      opacity: 0; transform: translateY(24px); filter: blur(4px);
-      transition: opacity 900ms var(--ease-out-expo),
-                  transform 900ms var(--ease-out-expo),
-                  filter 900ms var(--ease-out-expo);
+      opacity: 0; transform: translateY(20px); filter: blur(3px);
+      transition: opacity 550ms var(--ease-out-expo),
+                  transform 550ms var(--ease-out-expo),
+                  filter 550ms var(--ease-out-expo);
     }
     .reveal.in-view { opacity: 1; transform: translateY(0); filter: blur(0); }
     .reveal-d1 { transition-delay: 0ms; }
-    .reveal-d2 { transition-delay: 100ms; }
-    .reveal-d3 { transition-delay: 200ms; }
-    .reveal-d4 { transition-delay: 300ms; }
+    .reveal-d2 { transition-delay: 50ms; }
+    .reveal-d3 { transition-delay: 100ms; }
+    .reveal-d4 { transition-delay: 150ms; }
 
-    .btn-press:active { transform: scale(0.97); transition: transform 120ms var(--ease-out-expo); }
+    .btn-press:hover { transform: scale(1.02); transition: transform 160ms var(--ease-out-expo); }
+    .btn-press:active { transform: scale(0.96); transition: transform 80ms var(--ease-out-expo); }
 
-    /* Perpetual subtle float on cards */
     @keyframes subtleFloat {
       0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-3px); }
+      25% { transform: translateY(-3px); }
+      75% { transform: translateY(2px); }
     }
-    .float-anim {
-      animation: subtleFloat 6s ease-in-out infinite;
-    }
-    .float-anim-delayed {
-      animation: subtleFloat 6s ease-in-out 2s infinite;
-    }
+    .float-anim { animation: subtleFloat 4s ease-in-out infinite; }
+    .float-anim-delayed { animation: subtleFloat 4s ease-in-out 1.5s infinite; }
 
-    /* Gentle glow pulse on eye-catchers */
-    @keyframes glowPulse {
-      0%, 100% { box-shadow: 0 0 0 0 rgba(200, 110, 70, 0); }
-      50% { box-shadow: 0 0 20px 2px rgba(200, 110, 70, 0.08); }
+    @keyframes shimmer {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.65; }
     }
-    .glow-pulse {
-      animation: glowPulse 4s ease-in-out infinite;
-    }
-
-    .icon-sm { width: 18px; height: 18px; }
+    .shimmer-anim { animation: shimmer 2.5s ease-in-out infinite; }
 
     @media (prefers-reduced-motion: reduce) {
       .reveal, .reveal.in-view { transition: none; opacity: 1; transform: none; filter: none; }
@@ -111,6 +103,12 @@
 
 <div class="noise-overlay"></div>
 <div class="scroll-progress" id="scroll-progress"></div>
+
+<!-- Parallax orbs -->
+<div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+  <div class="absolute -top-[20%] -left-[10%] w-[60%] h-[60%] rounded-full hero-parallax" style="background: radial-gradient(circle, rgba(200,110,70,0.06) 0%, transparent 70%);" data-parallax="0.4"></div>
+  <div class="absolute -bottom-[30%] -right-[10%] w-[50%] h-[50%] rounded-full hero-parallax" style="background: radial-gradient(circle, rgba(180,140,110,0.04) 0%, transparent 70%);" data-parallax="-0.25"></div>
+</div>
 
 <!-- Floating Nav Pill -->
 <header class="fixed top-6 left-1/2 -translate-x-1/2 z-50">
@@ -135,7 +133,7 @@
     <div class="overflow-hidden">
       <h1 class="reveal reveal-d1 text-5xl sm:text-7xl lg:text-8xl font-bold text-white leading-[0.95] tracking-tight max-w-4xl">
         I build a free sample.<br>
-        <span class="text-[#c86e46]">If you like it, you buy it.</span><br>
+        <span class="text-[#c86e46] shimmer-anim">If you like it, you buy it.</span><br>
         If not, I take it down.
       </h1>
     </div>
@@ -143,7 +141,7 @@
       <div class="reveal reveal-d2">
         <a href="#work" class="btn-press group inline-flex items-center gap-3 bg-white hover:bg-zinc-100 text-zinc-900 pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
           See what I've built
-          <span class="w-8 h-8 rounded-full bg-zinc-900/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500 var(--ease-out-quint)">
+          <span class="w-8 h-8 rounded-full bg-zinc-900/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500" style="transition-timing-function: var(--ease-out-quint)">
             <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
           </span>
         </a>
@@ -151,7 +149,7 @@
       <div class="reveal reveal-d2">
         <a href="https://x.com/AIByPoulsen" target="_blank" rel="noopener" class="btn-press group inline-flex items-center gap-3 border border-white/[0.08] hover:border-white/30 text-white pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
           Follow on X
-          <span class="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500 var(--ease-out-quint)">
+          <span class="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500" style="transition-timing-function: var(--ease-out-quint)">
             <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
           </span>
         </a>
@@ -167,7 +165,7 @@
       Built this week
     </span>
     <h2 class="reveal reveal-d1 text-4xl lg:text-6xl font-bold text-white tracking-tight max-w-3xl">
-      Four businesses. No upfront agreements. Just built and sent.
+      Four businesses. No upfront agreements. Just built, sent, and waiting.
     </h2>
   </div>
 
@@ -400,13 +398,13 @@
   <div class="reveal reveal-d3 flex flex-wrap gap-4 justify-center">
     <a href="mailto:handvaerkerweb@gmail.com" class="btn-press group inline-flex items-center gap-3 bg-white hover:bg-zinc-100 text-zinc-900 pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
       handvaerkerweb@gmail.com
-      <span class="w-8 h-8 rounded-full bg-zinc-900/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500 var(--ease-out-quint)">
+      <span class="w-8 h-8 rounded-full bg-zinc-900/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500" style="transition-timing-function: var(--ease-out-quint)">
         <svg class="icon-sm" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
       </span>
     </a>
     <a href="https://x.com/AIByPoulsen" target="_blank" rel="noopener" class="btn-press group inline-flex items-center gap-3 border border-white/[0.08] hover:border-white/30 text-white pl-6 pr-2 py-2.5 rounded-full font-medium text-sm transition-colors duration-300">
       @AIByPoulsen
-      <span class="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500 var(--ease-out-quint)">
+      <span class="w-8 h-8 rounded-full bg-white/[0.06] flex items-center justify-center group-hover:translate-x-0.5 transition-transform duration-500" style="transition-timing-function: var(--ease-out-quint)">
         <svg class="icon-sm" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>
       </span>
     </a>
@@ -450,6 +448,22 @@
     });
   }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+  // Parallax scroll (transform-only, GPU-safe)
+  const orbs = document.querySelectorAll('[data-parallax]');
+  let orbTicking = false;
+  document.addEventListener('scroll', () => {
+    if (!orbTicking) {
+      requestAnimationFrame(() => {
+        const y = window.scrollY;
+        orbs.forEach(orb => {
+          orb.style.transform = `translateY(${y * parseFloat(orb.dataset.parallax)}px)`;
+        });
+        orbTicking = false;
+      });
+      orbTicking = true;
+    }
+  }, { passive: true });
 </script>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
@@ -479,9 +493,9 @@
       const targetIndex = Math.min(Math.floor(progress * totalCards), totalCards - 1);
       if (targetIndex !== activeIndex) {
         // Hide old
-        gsap.to(cards[activeIndex], { opacity: 0, scale: 0.95, duration: 0.25, ease: 'power2.in', pointerEvents: 'none' });
+        gsap.to(cards[activeIndex], { opacity: 0, scale: 0.95, duration: 0.2, ease: 'power2.in', pointerEvents: 'none' });
         // Show new
-        gsap.to(cards[targetIndex], { opacity: 1, scale: 1, duration: 0.25, ease: 'power2.out', pointerEvents: 'auto' });
+        gsap.to(cards[targetIndex], { opacity: 1, scale: 1, duration: 0.2, ease: 'power2.out', pointerEvents: 'auto' });
         activeIndex = targetIndex;
       }
     }
@@ -495,7 +509,7 @@
       start: 'top top',
       end: () => `+=${track.scrollWidth - window.innerWidth + 48}`,
       pin: true,
-      scrub: 0.5,
+      scrub: 0.3,
       onUpdate: (self) => {
         gsap.to(track, {
           x: -(track.scrollWidth - window.innerWidth + 48) * self.progress,
